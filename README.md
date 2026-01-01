@@ -4,6 +4,22 @@ Bu proje, Django framework kullanılarak geliştirilmiş, kullanıcı yönetimi 
 Amaç; Django’nun modüler yapısını kullanarak gerçek hayata yakın bir blog sistemi geliştirmek ve portföy amaçlı paylaşılabilir bir proje ortaya koymaktır.
 
 ---
+## Canlı Demo
+
+Projenin çalışan canlı halini görmek için aşağıdaki bağlantıyı ziyaret edebilirsiniz:
+
+👉 **https://djangoblogweb.pythonanywhere.com**
+
+---
+
+## Uygulama Mimarisi
+
+Aşağıda Django Blog projesinin genel mimari yapısı, kullanılan teknolojiler ve
+uygulama bileşenlerinin birbiriyle olan etkileşimi gösterilmektedir.
+
+![Django Blog Mimari Diyagramı](screenshots/DjangoBlogArch.png)
+
+
 
 ## Proje Özellikleri
 
