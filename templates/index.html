@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block body %}
+
+
+    
+
+    <div  class= "jumbotron text-center"><!--Yazının bulunduğu divi gri çerçeveye alıp yazıyı ortalar-->
+       <h3>Dajngo Blog Sayfasına Hoşgeldiniz</h3>
+    </div>
+    <br>
+    <hr>
+    <br>
+    
+    
+
+  <main class="main">
+
+    <!-- Blog Hero Section -->
+<!-- Blog Hero Section -->
+<section id="blog-hero" class="blog-hero section">
+  <div class="container-fluid p-0" data-aos="fade">
+
+    <!-- Swiper Container -->
+    <div class="swiper init-swiper blog-hero-slider">
+
+      <!-- Swiper Config -->
+      <script type="application/json" class="swiper-config">
+        {
+          "loop": true,
+          "speed": 1000,
+          "effect": "fade",
+          "autoplay": {
+            "delay": 5000
+          },
+          "slidesPerView": 1,
+          "navigation": {
+            "nextEl": ".swiper-button-next",
+            "prevEl": ".swiper-button-prev"
+          }
+        }
+      </script>
+
+      <!-- Slides Wrapper -->
+      <div class="swiper-wrapper">
+        {% for article in popular_articles %}
+          <div class="swiper-slide">
+            <div class="blog-hero-item">
+              {% if article.article_image %}
+                <img src="{{ article.article_image.url }}" alt="{{ article.title }}" class="img-fluid">
+              {% else %}
+                <img src="{% static 'img/blog/default.webp' %}" alt="Default Image" class="img-fluid">
+              {% endif %}
+              <div class="blog-hero-content">
+                <span class="category">{{ article.interest_area|default:"Genel" }}</span>
+                <h1>{{ article.title }}</h1>
+                <div class="meta">
+                  <span class="author">
+                    <a href="#">{{ article.author.first_name }} {{ article.author.last_name }} Yazdı</a>
+                  </span>
+                  <span class="date">{{ article.created_date|date:"d M, Y" }}</span>
+                  <span class="read-time">{{ article.reading_time }} dk. okuma</span>
+                  <span class="views">
+                    {{ article.likes.count|add:article.comments.count }} etkileşim
+                  </span>
+                </div>
+                <a href="{% url 'article:detail' article.id %}" class="read-more">
+                  Okumaya Devam Et <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div><!-- End slide -->
+        {% endfor %}
+      </div><!-- End swiper-wrapper -->
+
+      <!-- Navigation Arrows -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+
+    </div><!-- End swiper -->
+  </div>
+</section><!-- /Blog Hero Section -->
+
+
+    <!-- Featured Posts Section -->
+    <section id="featured-posts" class="featured-posts section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <span class="description-title">SON İÇERİKLER</span>
+        <h2>SON İÇERİKLER</h2>
+        <p>En güncel içeirklere aşağıdan erişebilirsiniz.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="blog-posts-slider swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 4500
+              },
+              "slidesPerView": 1,
+              "spaceBetween": 40,
+              "centeredSlides": true,
+              "breakpoints": {
+                "768": {
+                  "slidesPerView": 1.5,
+                  "spaceBetween": 30
+                },
+                "1200": {
+                  "slidesPerView": 2.2,
+                  "spaceBetween": 40
+                }
+              },
+              "pagination": {
+                "el": ".swiper-pagination",
+                "clickable": true
+              }
+            }
+          </script>
+
+          <div class="swiper-wrapper">
+            {% for article in latest_articles  %}
+            <div class="swiper-slide">
+              <article class="blog-card">
+                <div class="blog-image">
+                  <img src="{{ article.article_image.url }}" alt="{{article.tite}}" loading="lazy">
+                  <div class="category-badge">{{article.interest_area}}</div>
+                </div>
+                <div class="blog-content">
+                  <div class="author-info">
+                    <img src="{{article.author.profile.profile_image.url}}" alt="{{article.author}}" class="author-avatar">
+                    <div class="author-details">
+                      <span class="author-name">{{article.author.username}}</span>
+                      <span class="publish-date">{{article.created_date|date:"d M,Y"}}</span>
+                    </div>
+                  </div>
+                  <h3><a href="{% url 'article:detail' article.id %}">{{article.title}}</a></h3>
+                  <p>{{article.content|truncatewords:5|safe}}</p>
+                  <div class="blog-footer">
+                    <div class="reading-time">
+                      <i class="bi bi-clock"></i>
+                      <span>{{article.reading_time}} dk okuma süresi</span>
+                    </div>
+                    <a href="{% url 'article:detail' article.id %}" class="btn-read-more">
+                      <span>Okumaya Devam Et</span>
+                      <i class="bi bi-arrow-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </div><!-- End slide item -->
+            {% endfor %}
+            
+
+          </div>
+
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+
+    </section><!-- /Featured Posts Section -->
+
+
+
+
+  </main>
+
+   
+
+{% endblock body %}

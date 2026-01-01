@@ -1,0 +1,80 @@
+<header id="header" class="header d-flex align-items-center position-relative">
+  <div class="container position-relative d-flex align-items-center justify-content-between">
+
+    <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0">
+      <h1 class="sitename">Dajngo Blog</h1>
+    </a>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li>
+          <a href="{% url 'index' %}"
+             class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+             Anasayfa
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'about' %}"
+             class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+             Hakkında
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'article:articles' %}"
+             class="{% if request.resolver_match.url_name == 'articles' %}active{% endif %}">
+             Makaleler
+          </a>
+        </li>
+
+        {% if request.user.is_authenticated %}
+          <li>
+            <a href="{% url 'article:dashboard' %}"
+               class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+               Kontrol Paneli
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'user:logout' %}"
+               class="{% if request.resolver_match.url_name == 'logout' %}active{% endif %}">
+               Çıkış Yap
+            </a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{% url 'user:login' %}"
+               class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+               Giriş Yap
+            </a>
+          </li>
+        {% endif %}
+
+        <li>
+          <a href="{% url 'user:register' %}"
+             class="{% if request.resolver_match.url_name == 'register' %}active{% endif %}">
+             Kayıt Ol
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'user:contact' %}"
+             class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+             İletişim
+          </a>
+        </li>
+      </ul>
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
+
+    <div class="header-social-links">
+      <a href="https://github.com/mustafaaesen" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i></a>
+      <a href="https://www.linkedin.com/in/mustafaesen" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>
+      <a href="https://github.com/mustafaaesen" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
+      <a href="https://www.linkedin.com/in/mustafaesen" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+      <a href="https://github.com/mustafaaesen" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
+      <a href="https://www.mustafaesen.com.tr" target="_blank" rel="noopener noreferrer"><i class="bi bi-globe2"></i></a>
+    </div>
+
+  </div>
+</header>

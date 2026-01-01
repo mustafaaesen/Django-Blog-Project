@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+      <section id="blog-comment-form" class="blog-comment-form section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <form method="post" action="{% url 'user:login' %}" enctype="multipart/form-data" role="form" >
+            {% csrf_token %}<!--güvenlik için ekstra token oluşturulur-->
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ field.label }}: {{ error }}</p>
+                {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+          <div class="section-header">
+            <h3>Giriş Yap</h3>
+            <p>Hesabınıza erişebilmek için giriş yapın</p>
+          </div>
+
+          <div class="row gy-3">
+            <div class="col-md-6 mx-auto">
+              <label for="id_username" >Kullanıcı Adı *</label>
+              {{form.username}}
+              
+            </div>
+            
+            <div class="col-md-6 mx-auto">
+              <label for="id_password">Parola *</label>
+              {{form.password}}
+            </div>
+
+                <!-- Bilgilendirme Metni -->
+            <div class="col-12 text-center mt-3">
+            <p>
+                Hesabınız yok mu?
+                <a href="{% url 'user:register' %}" class="text-primary fw-semibold">
+                Hemen hesap oluşturun.
+                </a>
+            </p>
+            </div>
+
+            <div class="col-12 text-center">
+              <button type="submit" class="btn-submit">Giriş Yap</button>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+
+    </section><!-- /Blog Comment Form Section -->
+
+    
+{% endblock body %}

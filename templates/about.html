@@ -1,0 +1,184 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block body %}
+
+    
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-5 align-items-center">
+          <div class="col-lg-6 position-relative">
+            <div class="about-img" data-aos="fade-right">
+              <img src="{% static 'img/about/about-portrait-2.webp' %}" class="img-fluid" alt="">
+            </div>
+            <div class="experience-badge" data-aos="fade-up">
+              <h2>Key Features</h2>
+              <p>KULLANICI PROFİLLERİ • MAKALE CRUD YÖNETİMİ • YORUM VE BEĞENİ SİSTEMİ • DİNAMİK VERİ SIRALAMA • RESPONSIVE ARAYÜZ YAPISI
+</p>
+            </div>
+            <div class="projects-badge" data-aos="fade-left">
+              <h2>Full-Stack Developer</h2>
+              <p>Python • Django • SQLite3 • HTML5 • CSS3 • Bootstrap • JavaScript • Git</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-left">
+            <h2 class="display-4 fw-bold mb-4">Django Tabanlı Dinamik Blog Platformu</h2>
+            <p class="lead mb-4">Bu proje, Django framework kullanılarak geliştirilmiş tam fonksiyonel bir blog platformudur.
+Amaç; kullanıcıların kendi profillerini oluşturabildiği, makale yayımlayıp düzenleyebildiği, yorum ve beğeni etkileşimlerinde bulunabildiği bir sistem inşa etmektir.
+Geliştirme sürecinde kullanıcı deneyimi, veri bütünlüğü ve ölçeklenebilir mimari ön planda tutulmuştur.</p>
+
+            <div class="features">
+             <h4>Teknolojik Altyapı</h4>
+
+              <ul class="check-list" data-aos="fade-up" data-aos-delay="200">
+                <li><i class="bi bi-check-circle"></i> <strong>Backend: </strong>Python – Django Framework</li>
+                <li><i class="bi bi-check-circle"></i> <strong>Database: </strong>SQLite</li>
+                <li><i class="bi bi-check-circle"></i> <strong>Frontend: </strong>Frontend: HTML5, CSS3, Bootstrap</li>
+                <li><i class="bi bi-check-circle"></i> <strong>Authentication: </strong>Django User Model, Login/Register sistemleri</li>
+                <li><i class="bi bi-check-circle"></i> <strong>Media Management: </strong>Dinamik dosya yükleme, profil ve makale görselleri (FileField)</li>
+                <li><i class="bi bi-check-circle"></i> <strong>Pagination: </strong>Django Paginator sınıfı ile sayfa bazlı içerik yönetimi</li>
+                <li><i class="bi bi-check-circle"></i> <strong>Dynamic Content: </strong>Jinja2 tabanlı şablon yapısı, context verisi üzerinden dinamik render</li>
+                <li><i class="bi bi-check-circle"></i> <strong>Security: </strong>CSRF koruması, güvenli dosya yükleme, kullanıcı tabanlı erişim kısıtlaması</li>
+                <li><i class="bi bi-check-circle"></i> <strong>Extra Features: </strong>Makale beğeni sistemi, yorum beğenisi, kullanıcı istatistikleri, “en popüler yazarlar” analizi</li>
+
+             
+              </ul>
+
+              <a href="{% url 'user:register' %}" class="btn btn-primary btn-lg mt-4" data-aos="fade-up" data-aos-delay="300">Keşfet</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <span class="description-title">Popüler Yazarlar</span>
+        <h2>Popüler Yazarlar</h2>
+        <p>Topluluğa en çok katkıda bulunan yazarlar</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-4">
+          {% for author in top_authors  %}
+          
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:200 }}">
+            <div class="team-member">
+              <div class="member-image">
+                <img src="{{author.profile_image.url}}" class="img-fluid" alt="{{author.user.username}}" loading="lazy">
+                <div class="social-overlay">
+                  <div class="social-icons">
+                    <a href="{% if author.linkedin %}{{author.linkedin}} {% else %}# {% endif %}"
+                    target="_blank" rel="noopener noreferrer"
+                    {% if not author.linkedin %}
+                        onclick="showMessage('warning','LinkedIn Bağlantısı Eklenmemiş!!!'); return false;"
+                    {% endif %}>
+                    <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="{% if author.twitter %}{{author.twitter}} {% else %}# {% endif %}"
+                    target="_blank" rel="noopener noreferrer"
+                    {% if not author.twitter %}
+                        onclick="showMessage('warning','Twitter Bağlantısı Eklenmemiş!!!'); return false;"
+                    {%endif%}>
+                    <i class="bi bi-twitter-x"></i>
+                    </a>
+                    <a href="{% if author.instagram %}{{author.instagram}} {% else %}# {% endif %}"
+                    target="_blank" rel="noopener noreferrer"
+                    {% if not author.instagram %}
+                        onclick="showMessage('warning','İnstagram Bağlantısı Eklenmemiş!!!'); return false;"
+                    {%endif%}>
+                    <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="{% if author.github %}{{author.github}} {% else %}# {% endif %}"
+                    target="_blank" rel="noopener noreferrer"
+                    {% if not author.github %}
+                        onclick="showMessage('warning','Github Bağlantısı Eklenmemiş!!!'); return false;"
+                    {%endif%}>
+                    <i class="bi bi-github"></i>
+                    </a>
+                    <a href="{% if author.facebook %}{{author.facebook}} {% else %}# {%endif %}"
+                    target="_blank" rel="noopener noreferrer"
+                    {%  if not author.facebook %}
+                        onclick="showMessage('warning','Facebook Bağlantısı Eklenmemiş'); return false;"
+                    {%endif%}>
+                    <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="{% if author.website %}{{author.website}}{% else %}#{% endif %}"
+                    target="_blank" rel="noopener noreferrer"
+                    {% if not author.website %}
+                        onclick="showMessage('warning','Kişisel Web Sitesi Bağlantısı Eklenmemiş'); return false;"
+                    {%endif%}>
+                    <i class="bi bi-globe2"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>{{author.user.first_name}} {{author.user.last_name}}</h4>
+                <span>
+                    {% if author.user.profile.profession %}
+                        {{author.user.profile.profession}}
+                    {% else %}
+                    Meslek Belirtilmemiş
+                    {% endif %}
+                </span>
+                <p>{{author.bio|default:"Bu yazar heniz biyografi eklemedi"|truncatechars:120}}</p>
+                <p class="small text-muted mt-2">
+                <strong>Puan:</strong> {{ author.total_score }} • 
+                <strong>Makaleler:</strong> {{ author.article_count }} • 
+                <strong>Yorumlar:</strong> {{ author.comment_count }}
+                </p>
+              </div>
+            </div><!-- End Team Member -->
+          </div>
+          {% empty %}
+            <p class="text-center text-muted mt-3">Henüz öne çıkan yazar bulunmamaktadır.</p>
+
+          {% endfor %}
+          
+
+          
+
+
+         
+          
+
+          
+
+        </div>
+
+      </div>
+
+    </section><!-- /Team Section -->
+
+  </main>
+
+  <script>
+  function showMessage(type, text) {
+    const old = document.getElementById('social-msg');
+    if (old) old.remove();
+
+    const alertBox = document.createElement('div');
+    alertBox.id = 'social-msg';
+    alertBox.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 shadow`;
+    alertBox.style.zIndex = '9999';
+    alertBox.innerHTML = `
+      ${text}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(alertBox);
+    setTimeout(() => { alertBox.remove(); }, 3000);
+  }
+</script>
+
+{% endblock body %}

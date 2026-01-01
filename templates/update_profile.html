@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+<section id="profile-update" class="blog-comment-form section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <form method="post" enctype="multipart/form-data" role="form">
+      {% csrf_token %}
+
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+      <div class="section-header">
+        <h3>Profil Bilgilerini Güncelle</h3>
+        <p>Bilgilerini düzenle, profilini güncel tut</p>
+      </div>
+
+      <div class="row gy-3">
+        <!-- Kullanıcı Bilgileri -->
+        <div class="col-md-6 form-group">
+          <label for="id_username">Kullanıcı Adı *</label>
+          {{ form.username }}
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label for="id_first_name">Ad *</label>
+          {{ form.first_name }}
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label for="id_last_name">Soyad *</label>
+          {{ form.last_name }}
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label for="id_email">E-Posta Adresi *</label>
+          {{ form.email }}
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label for="id_profession">Meslek</label>
+          {{ form.profession }}
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label for="id_profile_image">Profil Fotoğrafı</label>
+          {{ form.profile_image }}
+        </div>
+
+        <div class="col-12 form-group">
+          <label for="id_bio">Biyografi</label>
+          {{ form.bio }}
+        </div>
+
+        <!-- Sosyal Medya Alanları -->
+        <hr>
+        <h5 class="mt-4 mb-3 text-center">Sosyal Medya Hesapların</h5>
+
+        <div class="col-md-6 form-group">
+          <label><i class="bi bi-twitter-x"></i> Twitter Kullanıcı Adı</label>
+          {{ form.twitter_username }}
+        </div>
+        <div class="col-md-6 form-group">
+          <label><i class="bi bi-twitter-x"></i> Twitter Profil Linki</label>
+          {{ form.twitter }}
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label><i class="bi bi-facebook"></i> Facebook Kullanıcı Adı</label>
+          {{ form.facebook_username }}
+        </div>
+        <div class="col-md-6 form-group">
+          <label><i class="bi bi-facebook"></i> Facebook Profil Linki</label>
+          {{ form.facebook }}
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label><i class="bi bi-instagram"></i> Instagram Kullanıcı Adı</label>
+          {{ form.instagram_username }}
+        </div>
+        <div class="col-md-6 form-group">
+          
+          <label><i class="bi bi-instagram"></i> Instagram Profil Linki</label>
+          {{ form.instagram }}
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label><i class="bi bi-linkedin"></i> LinkedIn Kullanıcı Adı</label>
+          {{ form.linkedin_username }}
+        </div>
+        <div class="col-md-6 form-group">
+          <label><i class="bi bi-linkedin"></i> LinkedIn Profil Linki</label>
+          {{ form.linkedin }}
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label><i class="bi bi-github"></i> GitHub Kullanıcı Adı</label>
+          {{ form.github_username }}
+        </div>
+        <div class="col-md-6 form-group">
+          <label><i class="bi bi-github"></i> GitHub Profil Linki</label>
+          {{ form.github }}
+        </div>
+
+        <div class="col-md-12 form-group">
+          <label><i class="bi bi-globe2"></i> Kişisel Website</label>
+          {{ form.website }}
+        </div>
+
+        <div class="col-12 text-center">
+          <button type="submit" class="btn-submit mt-3">Profili Güncelle</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+{% endblock body %}

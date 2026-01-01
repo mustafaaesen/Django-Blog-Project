@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-10 offset-md-3">
+    <div class="col-lg-8">
+      <h3>Makaleler</h3>
+      <hr>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <div class="container">
+    <div class="row">
+
+      <!-- MAKALE LİSTESİ -->
+      <div class="col-lg-8">
+
+        <section id="category-postst" class="category-postst section">
+          <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row gy-5">
+
+              {% if articles %}
+                {% for article in articles %}
+                  <div class="col-lg-6">
+                    <a href="{% url 'article:detail' article.id %}">
+                      <article>
+                        <div class="post-img">
+                          <img src="{{ article.article_image.url }}" 
+                               alt="{{ article.title }}" 
+                               style="width:100%; height:250px; object-fit:cover; object-position:center; border-radius:8px;" 
+                               class="img-fluid">
+                        </div>
+
+                        <div class="meta-top">
+                          <ul>
+                            <li class="d-flex align-items-center">
+                              <a href="{% url 'article:detail' article.id %}">{{ article.author }}</a>
+                            </li>
+                            <li class="d-flex align-items-center">
+                              <i class="bi bi-dot"></i>
+                              <a href="{% url 'article:detail' article.id %}">
+                                <time>{{ article.created_date|date:"d F Y" }}</time>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <h2 class="title">
+                          <a href="{% url 'article:detail' article.id %}">{{ article.title }}</a>
+                        </h2>
+                      </article>
+                    </a>
+                  </div><!-- End post list item -->
+                {% endfor %}
+              {% else %}
+                <div class="row">
+                  <div class="col-md-10 offset-md-3">
+                    <div class="col-lg-8">
+                      <div class="alert alert-danger">
+                        Makale Bulunamadı
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+
+            </div><!-- End blog posts list -->
+          </div>
+        </section><!-- /Category Postst Section -->
+
+        <!-- PAGINATION -->
+        <section id="pagination-2" class="pagination-2 section">
+          <div class="container">
+            <div class="d-flex justify-content-center">
+              <ul>
+                {% if page_obj.has_previous %}
+                  <li>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}">
+                      <i class="bi bi-chevron-left"></i>
+                    </a>
+                  </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                  {% if num == page_obj.number %}
+                    <li><a href="?page={{ num }}{% if keyword %}&keyword={{ keyword }}{% endif %}" class="active">{{ num }}</a></li>
+                  {% else %}
+                    <li><a href="?page={{ num }}{% if keyword %}&keyword={{ keyword }}{% endif %}">{{ num }}</a></li>
+                  {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                  <li>
+                    <a href="?page={{ page_obj.next_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}">
+                      <i class="bi bi-chevron-right"></i>
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </section><!-- /Pagination Section -->
+
+      </div><!-- /col-lg-8 -->
+
+      <!-- SAĞ TARAF (Sidebar) -->
+      <div class="col-lg-4 sidebar">
+        <div class="widgets-container">
+
+          <!-- Arama Kutusu -->
+          <div class="search-widget widget-item">
+            <h3 class="widget-title">Arama</h3>
+            <form method="get">
+              <input type="text" name="keyword" placeholder="Makale Ara..." maxlength="64" value="{{ keyword }}">
+              <button type="submit" title="arama"><i class="bi bi-search"></i></button>
+            </form>
+          </div><!-- /Search Widget -->
+
+          <!-- Son İçerikler -->
+          <div class="recent-posts-widget widget-item">
+            <h3 class="widget-title">Son İçerikler</h3>
+
+            {% for post in recent_posts %}
+            <a href="{% url 'article:detail' post.id %}">
+                <div class="post-item">
+                <img src="{{ post.article_image.url }}" 
+                    alt="{{ post.title }}" 
+                    style="width:70px; height:70px; object-fit:cover; object-position:center; border-radius:4px;" 
+                    class="flex-shrink-0">
+                <div>
+                    <h4><a href="{% url 'article:detail' post.id %}">{{ post.title }}</a></h4>
+                    <time>{{ post.created_date|date:"d F Y" }}</time>
+                </div>
+                </div><!-- End recent post item -->
+            </a>
+            {% endfor %}
+
+          </div><!-- /Recent Posts Widget -->
+
+        </div><!-- /widgets-container -->
+      </div><!-- /col-lg-4 -->
+
+    </div><!-- /row -->
+  </div><!-- /container -->
+</main>
+
+{% endblock body %}

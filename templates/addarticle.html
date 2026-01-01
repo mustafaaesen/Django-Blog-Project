@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+   
+     <!-- Blog Comment Form Section -->
+    <section id="blog-comment-form" class="blog-comment-form section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <form method="post" action="{% url 'article:addarticle' %}" enctype="multipart/form-data" role="form" >
+            {% csrf_token %}<!--güvenlik için ekstra token oluşturulur-->
+            {{ form.media }}
+             {% if form.errors %}
+                <div class="alert alert-danger">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                    <p>{{ field.label }}: {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+                </div>
+            {% endif %}
+
+          <div class="section-header">
+            <h3>Makale Ekle</h3>
+            <p>Yayınlamak üzere makalenizi ekleyin</p>
+          </div>
+
+          <div class="row gy-3">
+            <div class="col-md-6 form-group">
+              <label for="id_title" >Makale Başlığı *</label>
+              {{form.title}}
+              
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label for="id_interest_area">İlgi Alanı</label>
+              {{form.interest_area}}
+            </div>
+
+            <div class="col-md-12 form-group">
+              <label for="id_content">Makale *</label>
+              {{form.content}}
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="id_article_image">Makale Fotoğrafı(Opsiyonel)</label>
+              {{form.article_image}}
+            </div>
+            
+
+            <div class="col-12 text-center">
+              <button type="submit" class="btn-submit">Makaleyi Yayınla</button>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+
+    </section><!-- /Blog Comment Form Section -->
+    
+
+{% endblock body %}
+

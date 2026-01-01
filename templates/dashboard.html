@@ -1,0 +1,234 @@
+{% extends "layout.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+{% block body %}
+
+<h3>Kontrol Paneli & Profil</h3>
+<hr>
+
+
+<main class="main">
+
+  <!-- Author Profile Section -->
+  <section id="author-profile" class="author-profile section">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="author-profile-1">
+        <div class="row">
+
+          <!-- Author Info -->
+          <div class="col-lg-4 mb-4 mb-lg-0">
+            <div class="author-card" data-aos="fade-up">
+              <div class="author-image">
+                <img src="{{ profile.profile_image.url }}" alt="Author" class="img-fluid rounded">
+              </div>
+
+              <div class="author-info">
+                <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+                <p class="designation">
+                  {% if profile.profession %}
+                    {{ profile.profession }}
+                  {% else %}
+                    Meslek Belirtilmemiş
+                  {% endif %}
+                </p>
+
+                <div class="author-bio">
+                  {% if profile.bio %}
+                    {{ profile.bio }}
+                  
+                  {% else %}
+                   Henüz bio eklenmemiş
+                  {% endif %}
+                </div>
+
+                <div class="author-stats d-flex justify-content-between text-center my-4">
+                  <div class="stat-item">
+                    <h4 data-purecounter-start="0" data-purecounter-end="{{ article_count }}" data-purecounter-duration="1" class="purecounter"></h4>
+                    <p>Yayınlanan Makale</p>
+                  </div>
+                  <div class="stat-item">
+                    <h4 data-purecounter-start="0" data-purecounter-end="{{ comment_count }}" data-purecounter-duration="1" class="purecounter"></h4>
+                    <p>Yapılan Yorum</p>
+                  </div>
+                  <div class="stat-item">
+                    <h4 data-purecounter-start="0" data-purecounter-end="{{ article_likes }}" data-purecounter-duration="1" class="purecounter"></h4>
+                    <p>Makale Beğenisi</p>
+                  </div>
+                  <div class="stat-item">
+                    <h4 data-purecounter-start="0" data-purecounter-end="{{ comment_likes }}" data-purecounter-duration="1" class="purecounter"></h4>
+                    <p>Yorum Beğenisi</p>
+                  </div>
+                </div>
+
+                <div class="blog-comment-form text-center">
+                  <div class="button-group">
+                    <a href="{% url 'article:addarticle' %}" class="btn-submit">Makale Ekle</a>
+                    <a href="{% url 'user:update_profile' %}" class="btn-submit">Profili Güncelle</a>
+                  </div>
+                </div>
+
+                <!-- Sosyal Medya Linkleri -->
+                <div class="social-links mt-3">
+                  <a href="{% if profile.twitter %}{{ profile.twitter }}{% else %}#{% endif %}"
+                     class="twitter" target="_blank" rel="noopener noreferrer"
+                     {% if not profile.twitter %}
+                        onclick="showMessage('warning', 'Twitter Bağlantısı Eklenmemiş!!!'); return false;"
+                     {% endif %}>
+                     <i class="bi bi-twitter-x"></i>
+                  </a>
+
+                  <a href="{% if profile.facebook %}{{ profile.facebook }}{% else %}#{% endif %}"
+                     class="facebook" target="_blank" rel="noopener noreferrer"
+                     {% if not profile.facebook %}
+                        onclick="showMessage('warning', 'Facebook Bağlantısı Eklenmemiş!!!'); return false;"
+                     {% endif %}>
+                     <i class="bi bi-facebook"></i>
+                  </a>
+
+                  <a href="{% if profile.instagram %}{{ profile.instagram }}{% else %}#{% endif %}"
+                     class="instagram" target="_blank" rel="noopener noreferrer"
+                     {% if not profile.instagram %}
+                        onclick="showMessage('warning', 'İnstagram Bağlantısı Eklenmemiş!!!'); return false;"
+                     {% endif %}>
+                     <i class="bi bi-instagram"></i>
+                  </a>
+
+                </div>
+
+                <div class="social-links mt-3">
+                  <a href="{% if profile.linkedin %}{{ profile.linkedin }}{% else %}#{% endif %}"
+                     class="linkedin" target="_blank" rel="noopener noreferrer"
+                     {% if not profile.linkedin %}
+                        onclick="showMessage('warning', 'LinkedIn Bağlantısı Eklenmemiş!!!'); return false;"
+                     {% endif %}>
+                     <i class="bi bi-linkedin"></i>
+                  </a>
+
+                  <a href="{% if profile.github %}{{ profile.github }}{% else %}#{% endif %}"
+                     class="github" target="_blank" rel="noopener noreferrer"
+                     {% if not profile.github %}
+                        onclick="showMessage('warning', 'GitHub Bağlantısı Eklenmemiş!!!'); return false;"
+                     {% endif %}>
+                     <i class="bi bi-github"></i>
+                  </a>
+
+                  <a href="{% if profile.website %}{{ profile.website }}{% else %}#{% endif %}"
+                     class="website" target="_blank" rel="noopener noreferrer"
+                     {% if not profile.website %}
+                        onclick="showMessage('warning', 'Web Sitesi Bağlantısı Eklenmemiş!!!'); return false;"
+                     {% endif %}>
+                     <i class="bi bi-globe2"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Author Content -->
+          <div class="col-lg-8">
+            <div class="author-content" data-aos="fade-up" data-aos-delay="200">
+              <div class="content-header">
+                <h3>Hoşgeldin <strong>{{ profile.user.username }}</strong></h3>
+              </div>
+
+              <div class="content-body">
+                <p>Buradan profil bilgilerinizi güncelleyebilir, daha önce yazdığınız makalelerde değişiklik yapıp makaleleri yönetebilirsiniz.</p>
+
+                <div class="featured-articles mt-5">
+                  <h4>Makaleler</h4>
+                  <div class="row g-4">
+                    {% if articles %}
+                    {% for article in articles %}
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:300 }}">
+                      <article class="article-card">
+                        <div class="article-img">
+                          <img src="{{ article.article_image.url }}" 
+                               alt="{{ article.title }}" 
+                               style="width:100%; height:250px; object-fit:cover; border-radius:8px;"
+                               class="img-fluid">
+                        </div>
+
+                        <div class="article-details">
+                          <div class="post-category-wrapper" style="display:flex; gap:10px;">
+                            <div class="post-category">
+                              <a href="{% url 'article:update' article.id %}">Güncelle</a>
+                            </div>
+                            <div class="post-category">
+                              <a href="{% url 'article:delete' article.id %}">Sil</a>
+                            </div>
+                          </div>
+
+                          <h5><a href="{% url 'article:detail' article.id %}">{{ article.title }}</a></h5>
+
+                          <div class="post-meta">
+                            <span><i class="bi bi-clock"></i> {{ article.created_date|date:"d F Y" }}</span>
+                            <span><i class="bi bi-chat-dots"></i> {{ article.comments.count }} Yorum</span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="alert alert-warning">Henüz Bir Makaleniz Bulunmuyor</div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <div class="pagination-2 section mt-4">
+                  <div class="container">
+                    <div class="d-flex justify-content-center">
+                      <ul>
+                        {% if page_obj.has_previous %}
+                          <li><a href="?page={{ page_obj.previous_page_number }}"><i class="bi bi-chevron-left"></i></a></li>
+                        {% endif %}
+                        {% for num in page_obj.paginator.page_range %}
+                          {% if page_obj.number == num %}
+                            <li><a href="?page={{ num }}" class="active">{{ num }}</a></li>
+                          {% else %}
+                            <li><a href="?page={{ num }}">{{ num }}</a></li>
+                          {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                          <li><a href="?page={{ page_obj.next_page_number }}"><i class="bi bi-chevron-right"></i></a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                <!-- /Pagination -->
+
+              </div><!-- /content-body -->
+            </div><!-- /author-content -->
+          </div><!-- /col-lg-8 -->
+
+        </div><!-- /row -->
+      </div><!-- /author-profile-1 -->
+    </div><!-- /container -->
+  </section><!-- /Author Profile Section -->
+</main>
+
+
+
+<script>
+  function showMessage(type, text) {
+    const old = document.getElementById('social-msg');
+    if (old) old.remove();
+
+    const alertBox = document.createElement('div');
+    alertBox.id = 'social-msg';
+    alertBox.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 shadow`;
+    alertBox.style.zIndex = '9999';
+    alertBox.innerHTML = `
+      ${text}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(alertBox);
+    setTimeout(() => { alertBox.remove(); }, 3000);
+  }
+</script>
+
+{% endblock body %}

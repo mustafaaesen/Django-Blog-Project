@@ -1,0 +1,643 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<main class="main">
+
+
+    <!-- Blog Details Section -->
+    <section id="blog-details" class="blog-details section">
+      <div class="container" data-aos="fade-up">
+
+        <div class="article-hero">
+          <div class="hero-background">
+            <img src="{{ article.article_image.url }}" alt="{{ article.article_image }}" class="hero-bg-image">
+            <div class="hero-overlay"></div>
+          </div>
+
+          <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
+            <div class="category-badges">
+              <span class="badge">{{article.interest_area}}</span>
+              
+            </div>
+            <h1>{{article.title}}</h1>
+            
+
+            <div class="author-meta">
+              <img src="{{ author_profile.profile_image.url }}" alt="{{article.author}}" class="author-avatar">
+              <div class="author-details">
+                <h4>{{article.author}}</h4>
+                <span>{{author_profile.profession}}</span>
+              </div>
+              <div class="article-stats">
+                <span><i class="bi bi-calendar3"></i> {{article.created_date}}</span>
+                <span><i class="bi bi-clock-history"></i> {{reading_time}} dakika</span>
+                <span><i class="bi bi-chat-dots"></i>{{comments.count}} yorum</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      
+
+      <main class="main-content">
+        <section id="overview" class="content-block" data-aos="fade-up">
+          <div class="intro-text">
+            <p class="lead-paragraph">{{ article.title }}</p>
+
+            <div class="article-content">
+              {{ article.content|safe }}
+            </div>
+          </div>
+        </section>
+      </main>
+
+
+
+        <div class="article-actions" data-aos="fade-up">
+          <div class="engagement-section">
+            <div class="social-sharing">
+              <h3>Makaleyi Paylaş</h3>
+              <div class="share-options">
+                <a href="#" class="share-btn twitter">
+                  <i class="bi bi-twitter-x"></i>
+                  <span>Twitter</span>
+                </a>
+                <a href="#" class="share-btn facebook">
+                  <i class="bi bi-facebook"></i>
+                  <span>Facebook</span>
+                </a>
+                <a href="#" class="share-btn linkedin">
+                  <i class="bi bi-linkedin"></i>
+                  <span>LinkedIn</span>
+                </a>
+                <a href="#" class="share-btn email">
+                  <i class="bi bi-envelope"></i>
+                  <span>E-Posta</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="article-reactions">
+              <h3>Hareketleriniz</h3>
+              <div class="reaction-buttons">
+                <button 
+                  id="like-btn" 
+                  class="reaction-btn {% if user_has_liked %}liked{% endif %}" 
+                  data-article-id="{{ article.id }}">
+                  <i class="bi {% if user_has_liked %}bi-hand-thumbs-up-fill{% else %}bi-hand-thumbs-up{% endif %}"></i>
+                  <span>Beğendim</span>
+                  <span id="like-count" class="count">{{ article.like_count }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+      </div>
+    </section><!-- /Blog Details Section -->
+
+    <!-- Blog Author Section -->
+    <section id="blog-author" class="blog-author section">
+
+      <div class="container" data-aos="fade-up">
+        <div class="author-card">
+          <div class="author-header">
+            <div class="author-image-container">
+              <img src="{{author_profile.profile_image.url}}" class="author-image" alt="" loading="lazy">
+              <div class="expertise-tags">
+                <span>
+                  {% if author_profile.profession %}
+                   
+                  {{author_profile.profession}}
+                  
+                  {% else %}
+                  Meslek Belirtilmemiş
+                  {% endif %}
+                </span>
+                
+              </div>
+            </div>
+
+            <div class="author-intro">
+              <div class="name-block">
+                <h3 class="author-name">{{article.author}}</h3>
+                <span class="verified-badge">
+                  <i class="bi bi-patch-check-fill"></i>
+                  Öne Çıkan Yazar
+                </span>
+              </div>
+
+              <p class="author-tagline">
+                {{author_profile.user.first_name}} {{author_profile.user.last_name}}
+              </p>
+            </div>
+          </div>
+
+          <div class="author-content" data-aos="fade-up" data-aos-delay="200">
+            <div class="content-row">
+              <div class="bio-section">
+                <p class="bio-text">
+                  {{author_profile.bio}}
+                </p>
+                <div class="author-metrics">
+                  <div class="metric">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Süreklilik Sağlayan</span>
+                  </div>
+                  <div class="metric">
+                    <i class="bi bi-stars"></i>
+                    <span>En Çok Katkıda Bulunan</span>
+                  </div>
+                </div>
+              </div>
+
+             
+              </div>
+            </div>
+
+            <div class="author-footer">
+              <div class="connect-links">
+                {% if author_profile.github %}
+                  <a href="{{author_profile.github}}" class="social-link" target="_blank" rel="noopener noreferrer">
+                  <i class="bi bi-github"></i>
+                  <span>{{author_profile.github_username}}</span>
+                  </a>
+                {% endif %}
+                
+                {% if author_profile.twitter %}
+                <a href="{{author_profile.twitter}}" class="social-link" target="_blank" rel="noopener noreferrer">
+                  <i class="bi bi-twitter-x"></i>
+                  <span>{{author_profile.twitter_username}}</span>
+                </a>
+                {% endif %}
+                
+                {% if author_profile.facebook %}
+                
+                 <a href="{{author_profile.facebook}}" class="social-link" target="_blank" rel="noopener noreferrer">
+                  <i class="bi bi-facebook"></i>
+                  <span>{{author_profile.facebook_username}}</span>
+                </a>
+
+                {% endif %}
+               
+                {% if author_profile.linkedin %}
+                <a href="{{author_profile.linkedin}}" class="social-link" target="_blank" rel="noopener noreferrer">
+                  <i class="bi bi-linkedin"></i>
+                  <span>{{author_profile.linkedin_username}}</span>
+                </a>
+                {% endif %}
+                
+                {% if authpr_profile.instagram %}
+                <a href="{{authpr_profile.instagram}}" class="social-link" target="_blank" rel="noopener noreferrer">
+                  <i class="bi bi-instagram"></i>
+                  <span>{{authpr_profile.instagram_username}}</span>
+                </a>
+                {% endif %}
+                
+                {% if authpr_profile.website %}
+                <a href="{{authpr_profile.website}}" class="social-link" target="_blank" rel="noopener noreferrer">
+                  <i class="bi bi-globe2"></i>
+                  <span>Kişisel Websitesi</span>
+                </a>
+                {% endif %}
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Blog Author Section -->
+
+<section id="blog-comments" class="blog-comments section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="blog-comments-4">
+      <div class="comments-header">
+        <h3 class="title">Topluluk Bildirimleri</h3>
+        <div class="comments-stats">
+          <span class="count">{{ comments.count }}</span>
+          <span class="label">Yorum Yapılmış</span>
+        </div>
+      </div>
+
+      <div class="comments-container">
+        {% for comment in comments %}
+          <div class="comment-thread">
+            <!-- Ana yorum -->
+            <div class="comment-box">
+              <div class="comment-wrapper">
+                <div class="avatar-wrapper">
+                  <img src="{{ comment.comment_author.profile.profile_image.url }}" alt="Avatar" loading="lazy">
+                  <span class="status-indicator"></span>
+                </div>
+
+                <div class="comment-content">
+                  <div class="comment-header">
+                    <div class="user-info">
+                      <h4>{{ comment.comment_author.username }}</h4>
+                      <span class="time-badge">
+                        <i class="bi bi-clock"></i>
+                        {{ comment.comment_date|timesince }} önce
+                      </span>
+                    </div>
+                    <div class="engagement">
+                      <span class="likes" data-comment-id="{{ comment.id }}">
+                        <i class="bi bi-heart"></i>
+                        {{ comment.like_count }}
+                      </span>
+                    </div>
+
+                  </div>
+
+                  <div class="comment-body">
+                    <p>{{ comment.comment_content|safe }}</p>
+                  </div>
+
+                  {% if request.user.is_authenticated %}
+                    <div class="comment-actions">
+                      <!-- Beğenme butonu -->
+                          <button 
+                            class="action-btn like-btn {% if comment.user_has_liked %}liked{% endif %}"
+                            data-comment-id="{{ comment.id }}">
+                            <i class="bi {% if comment.user_has_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                            <span>Beğen</span>
+                          </button>
+
+
+                      <!-- Yanıtla butonu -->
+                      <button class="action-btn reply-btn" data-comment="{{ comment.id }}">
+                        <i class="bi bi-chat"></i><span>Yanıtla</span>
+                      </button>
+                    </div>
+
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <!-- Alt yorumlar -->
+            {% if comment.replies.all %}
+              <div class="replies-container">
+                {% for reply in comment.replies.all %}
+                  <div class="comment-box reply">
+                    <div class="comment-wrapper">
+                      <div class="avatar-wrapper">
+                        <img src="{{ reply.comment_author.profile.profile_image.url }}" alt="Avatar" loading="lazy">
+                        <span class="status-indicator"></span>
+                      </div>
+
+                      <div class="comment-content">
+                        <div class="comment-header">
+                          <div class="user-info">
+                            <h4>{{ reply.comment_author.username }}</h4>
+                            <span class="time-badge">
+                              <i class="bi bi-clock"></i>
+                              {{ reply.comment_date|timesince }} önce
+                            </span>
+                          </div>
+                          <div class="engagement">
+                            <span class="likes" data-comment-id="{{ comment.id }}">
+                              <i class="bi bi-heart"></i>
+                              {{ reply.like_count }}
+                            </span>
+                          </div>
+
+                        </div>
+
+                        <div class="comment-body">
+                          <p>{{ reply.comment_content|safe }}</p>
+                        </div>
+
+                        {% if request.user.is_authenticated %}
+                         <div class="comment-actions">
+                          <!-- Beğenme butonu -->
+                          <button 
+                            class="action-btn like-btn {% if reply.user_has_liked %}liked{% endif %}" 
+                            data-comment-id="{{ reply.id }}">
+                            <i class="bi {% if reply.user_has_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                            <span>Beğen</span>
+                            <span class="like-count">{{ reply.like_count }}</span>
+                          </button>
+                          <!-- Yanıtla butonu -->
+                          <button class="action-btn reply-btn" data-comment="{{ comment.id }}">
+                            <i class="bi bi-chat"></i><span>Yanıtla</span>
+                          </button>
+                        </div>
+
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          {% empty %}
+            <div class="text-center py-5">
+              <h5><i class="bi bi-chat-dots"></i> Bu makaleye henüz yorum yapılmamış.</h5>
+              {% if request.user.is_authenticated %}
+                <p>İlk yorumu sen yapabilirsin 👇</p>
+              
+              {% endif %}
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Blog Comment Form Section -->
+
+    {% if request.user.is_authenticated %}
+
+       {% if request.user.is_authenticated %}
+          <section id="blog-comment-form" class="blog-comment-form section">
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+              <form method="post" action="{% url 'article:comment' article.id %}" role="form">
+                {% csrf_token %}
+                <input type="hidden" name="parent_id" id="parent_id" value="">
+                <p id="reply-info" class="text-center text-muted" style="display:none;"></p>
+
+                <div class="section-header">
+                  <h3>Düşüncelerinizi Paylaşın</h3>
+                  <p>Bu makale hakkında yorum yapabilirsiniz 👇</p>
+                </div>
+
+                <div class="row gy-3">
+                  <div class="col-12 form-group">
+                    <label for="comment_content">Yorumunuz *</label>
+                    <textarea class="form-control" name="comment_content" id="comment_content" rows="5"
+                              placeholder="Düşüncelerinizi buraya yazabilirsiniz..." required></textarea>
+                  </div>
+
+                  <div class="col-12 text-center">
+                    <button type="submit" class="btn-submit">Yorum Yap</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+{% else %}
+  <div class="text-center py-5">
+    <p>Yorum yapabilmek için <a href="{% url 'user:login' %}">giriş yap</a>.</p>
+  </div>
+{% endif %}
+
+
+
+    {% else %}
+
+        <div class="text-center my-5">
+          <p>Yorum yapabilmek için <a href="{% url 'user:login' %}">giriş yap</a>.</p>
+        </div>
+
+    {% endif %}
+    
+  </main>
+  
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const replyButtons = document.querySelectorAll(".reply-btn");
+  const formSection = document.getElementById("blog-comment-form");
+  const parentInput = document.getElementById("parent_id");
+  const replyInfo = document.getElementById("reply-info");
+
+  replyButtons.forEach(button => {
+    button.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      // 1️⃣ Hedef yorumun ID'sini al
+      const parentId = this.getAttribute("data-comment");
+
+      // 2️⃣ Yorumu yapan kullanıcının adını al
+      const commentBox = this.closest(".comment-content");
+      const username = commentBox.querySelector(".user-info h4").innerText;
+
+      // 3️⃣ Formun parent_id değerini güncelle
+      parentInput.value = parentId;
+
+      // 4️⃣ Bilgilendirme mesajını göster
+      replyInfo.innerHTML = `<strong>@${username}</strong> adlı kullanıcıya yanıt veriyorsunuz. <a href="#" id="cancel-reply">İptal Et</a>`;
+      replyInfo.style.display = "block";
+
+      // 5️⃣ Form kısmına yumuşak kaydırma yap
+      formSection.scrollIntoView({ behavior: "smooth" });
+
+      // 6️⃣ “İptal Et”e tıklanınca sıfırlasın
+      document.getElementById("cancel-reply").addEventListener("click", function(e) {
+        e.preventDefault();
+        parentInput.value = "";
+        replyInfo.style.display = "none";
+      });
+    });
+  });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const likeButton = document.getElementById('like-btn');
+
+  if (likeButton) {
+    likeButton.addEventListener('click', function() {
+      const articleId = this.dataset.articleId;
+      const csrftoken = getCookie('csrftoken');
+
+      fetch(`/articles/like/${articleId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const icon = likeButton.querySelector('i');
+        const countSpan = document.getElementById('like-count');
+
+        // Toggle ikonu
+        if (data.liked) {
+          likeButton.classList.add('liked');
+          icon.classList.remove('bi-hand-thumbs-up');
+          icon.classList.add('bi-hand-thumbs-up-fill');
+        } else {
+          likeButton.classList.remove('liked');
+          icon.classList.remove('bi-hand-thumbs-up-fill');
+          icon.classList.add('bi-hand-thumbs-up');
+        }
+
+        // Sayı güncelle
+        if (countSpan) {
+          countSpan.textContent = data.like_count;
+        }
+      })
+      .catch(error => console.error('Makale beğeni hatası:', error));
+    });
+  }
+
+  // CSRF fonksiyonu
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+});
+</script>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const commentLikeButtons = document.querySelectorAll('.like-btn');
+
+  commentLikeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const commentId = this.dataset.commentId;
+      const csrftoken = getCookie('csrftoken');
+      const commentBox = this.closest('.comment-box'); // 🔥 bu butonun ait olduğu yorum kutusu
+
+      fetch(`/articles/comment-like/${commentId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const icon = this.querySelector('i');
+        const likeSpan = commentBox.querySelector('.likes'); // 🔥 sadece bu yorumun sayacı
+
+        // ikon ve renk
+        if (data.liked) {
+          this.classList.add('liked');
+          icon.classList.remove('bi-heart');
+          icon.classList.add('bi-heart-fill');
+        } else {
+          this.classList.remove('liked');
+          icon.classList.remove('bi-heart-fill');
+          icon.classList.add('bi-heart');
+        }
+
+        // sayaç güncelle
+        if (likeSpan) {
+          likeSpan.innerHTML = `
+            <i class="bi ${data.liked ? 'bi-heart-fill' : 'bi-heart'}"></i>
+            ${data.like_count}
+          `;
+        }
+      })
+      .catch(error => console.error('Beğeni hatası:', error));
+    });
+  });
+
+  // CSRF token fonksiyonu
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+});
+</script>
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const commentLikeButtons = document.querySelectorAll('.like-btn');
+
+  commentLikeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const commentId = this.dataset.commentId;
+      const csrftoken = getCookie('csrftoken');
+      
+      // 🔹 Her yorumun kendi kutusunu hedefle
+      const commentBox = document.querySelector(`.comment-box[data-id="${commentId}"]`);
+      const likeDisplay = commentBox.querySelector('.likes'); // sadece o yorumun sayacı
+
+      fetch(`/articles/comment-like/${commentId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const icon = this.querySelector('i');
+
+        // ikon değişimi
+        if (data.liked) {
+          this.classList.add('liked');
+          icon.classList.remove('bi-heart');
+          icon.classList.add('bi-heart-fill');
+        } else {
+          this.classList.remove('liked');
+          icon.classList.remove('bi-heart-fill');
+          icon.classList.add('bi-heart');
+        }
+
+        // 🔹 yalnızca ilgili yorumun sayacını güncelle
+        if (likeDisplay) {
+          likeDisplay.innerHTML = `
+            <i class="bi ${data.liked ? 'bi-heart-fill' : 'bi-heart'}"></i>
+            ${data.like_count}
+          `;
+        }
+      })
+      .catch(error => console.error('Beğeni hatası:', error));
+    });
+  });
+
+  // CSRF fonksiyonu
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".article-content img").forEach(img => {
+    img.style.cssText = ""; // tüm inline stil temizlenir
+    img.style.display = "block";
+    img.style.margin = "20px auto";
+    img.style.maxWidth = "100%";
+    img.style.height = "auto";
+  });
+});
+</script>
+
+
+
+{% endblock body %}
